@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book, Author, BookInstance
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 
 def index(request):
@@ -32,3 +32,8 @@ def index(request):
 class BookListView(ListView):
     model = Book
     context_object_name = 'books'
+
+
+class BookDetailView(DetailView):
+    model = Book
+    context_object_name = 'book'
