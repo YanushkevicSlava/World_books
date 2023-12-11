@@ -7,7 +7,7 @@
   <div class="row m-2">
     <p><strong>Автор:</strong>
     {% for author in book.author.all %}
-      <a href="">{{ author.first_name }} {{ author.last_name }}</a>
+      <a href="/authors/{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</a>
     {% endfor %}
   </div>
   <img src="{{ book.photo.url }}" alt="connect" style="max-height: 200px">

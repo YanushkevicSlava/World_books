@@ -44,3 +44,8 @@ class AuthorListView(ListView):
     model = Author
     paginate_by = 4
     context_object_name = 'authors'
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+    context_object_name = 'author'
