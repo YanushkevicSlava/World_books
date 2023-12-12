@@ -49,3 +49,37 @@ class AuthorListView(ListView):
 class AuthorDetailView(DetailView):
     model = Author
     context_object_name = 'author'
+
+
+def about(request):
+    text_head = 'Сведения о компании'
+    name = 'Интелектуальные системы'
+    rab1 = 'Разработка приложений на основе AI'
+    rab2 = 'Распознование дорожных обьектов'
+    rab3 = 'Создание АРТ обьектов на основе AI'
+    rab4 = 'Выпуск электронных книг'
+    context = {
+        'text_head': text_head,
+        'name': name,
+        'rab1': rab1,
+        'rab2': rab2,
+        'rab3': rab3,
+        'rab4': rab4,
+    }
+    return render(request, 'catalog/about.html', context=context)
+
+
+def contact(request):
+    text_head = 'Контакты'
+    name = 'Интелектуальные системы'
+    address = '////.....////'
+    email = 'aisoft@ai.com'
+    tel = '+2252666636363'
+    context = {
+        'text_head': text_head,
+        'name': name,
+        'address': address,
+        'email': email,
+        'tel': tel,
+    }
+    return render(request, 'catalog/contact.html', context=context)
