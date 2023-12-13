@@ -16,6 +16,9 @@ def index(request):
     # Данные об авторах книг
     authors = Author.objects.all()
     num_authors = Author.objects.all().count()
+    # Число посещений главной страницы
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
     # словарь для передачи данных в шаблон index.html
     context = {
         'text_head': text_head,
@@ -25,6 +28,7 @@ def index(request):
         'num_instances_available': num_instances_available,
         'authors': authors,
         'num_authors': num_authors,
+        'num_visits': num_visits,
     }
     return render(request, 'catalog/index.html', context)
 
@@ -83,3 +87,4 @@ def contact(request):
         'tel': tel,
     }
     return render(request, 'catalog/contact.html', context=context)
+
