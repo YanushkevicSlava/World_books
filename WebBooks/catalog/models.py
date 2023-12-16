@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+from datetime import date
 
 
 class Genre(models.Model):
@@ -135,6 +137,16 @@ class BookInstance(models.Model):
                                 verbose_name="Дата окончания статуса",
                                 null=True,
                                 blank=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL,
+                                 null=True, blank=True,
+                                 verbose_name="Заказчик",
+                                 help_text="Выберите заказчика книги")
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
     class Meta:
         ordering = ["due_back"]
