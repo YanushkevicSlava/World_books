@@ -101,3 +101,10 @@ def contact(request):
     }
     return render(request, 'catalog/contact.html', context=context)
 
+
+def edit_authors(request):
+    author = Author.objects.all()
+    context = {
+        'author': author,
+    }
+    return render(request, 'catalog/edit_authors.html', context=context)
