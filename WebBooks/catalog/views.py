@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Book, Author, BookInstance
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
+from .forms import FormAddAuthor
+from django.urls import reverse
 
 
 class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
@@ -108,3 +110,27 @@ def edit_authors(request):
         'author': author,
     }
     return render(request, 'catalog/edit_authors.html', context=context)
+
+
+def add_author(request):
+    if request.method == 'POST':
+        form = FormAddAuthor(request.POST, request.FILES)
+        if form.is_valid():
+            first_name = form.cleaned_data.get("first_name")
+            last_name = form.cleaned_data.get("last_name")
+            date_of_birth = form.cleaned_data.get("date_of_birth")
+            about = form.cleaned_data.get("about")
+            photo = form.cleaned_data.get("photo")
+            obj = Author.objects.create(
+                first_name=first_name,
+                last_name=last_name,
+                date_of_birth=date_of_birth,
+                about=about,
+                photo=photo,
+            )
+            obj.save()
+            return HttpResponseRedirect(reverse('authors-list'))
+    else:
+        form = FormAddAuthor()
+        context = {"form": form}
+        return render(request, "catalog/authors_add.html", context=context)
