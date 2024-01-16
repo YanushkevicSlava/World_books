@@ -24,8 +24,8 @@
               <td>{{ author.id }}</td>
               <td>{{ author.first_name }}</td>
               <td>{{ author.last_name }}</td>
-              <td><a href="edit_author/{{ author.id }}">Изменить</a> ,
-              <a href="delete_author/{{ author.id }}">Удалить</a> </td>
+              <td><a href="/edit_author/{{ author.id }}">Изменить</a> ,
+              <a href="/delete/{{ author.id }}">Удалить</a> </td>
             </tr>
           {% endfor %}
         {% else %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from .models import Book, Author, BookInstance
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -134,3 +134,10 @@ def add_author(request):
         form = FormAddAuthor()
         context = {"form": form}
         return render(request, "catalog/authors_add.html", context=context)
+
+
+def delete(request, id):
+    obj = Author.objects.get(id=id)
+    obj.delete()
+    return HttpResponseRedirect("/edit_authors/")
+
