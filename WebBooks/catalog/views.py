@@ -4,7 +4,7 @@ from .models import Book, Author, BookInstance
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from .forms import FormAddAuthor
+from .forms import FormAddAuthor, FormEditAuthor
 from django.urls import reverse
 
 
@@ -141,3 +141,16 @@ def delete(request, id):
     obj.delete()
     return HttpResponseRedirect("/edit_authors/")
 
+
+def edit_author(request, id):
+    author = Author.objects.get(id=id)
+    if request.method == 'POST':
+        instance = Author.objects.get(id=id)
+        form = FormEditAuthor(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/edit_authors/")
+    else:
+        form = FormEditAuthor(instance=author)
+        content = {"form": form}
+        return render(request, "catalog/edit_author.html", content)

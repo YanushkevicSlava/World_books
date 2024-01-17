@@ -1,5 +1,6 @@
 from django import forms
 from datetime import date
+from .models import Author
 
 
 # форма для добавления в БД авторов
@@ -11,3 +12,9 @@ class FormAddAuthor(forms.Form):
                                     widget=forms.widgets.DateInput(attrs={'type': 'date'}))
     about = forms.CharField(label="Сведения об авторе", widget=forms.Textarea)
     photo = forms.ImageField(label="Фото автора")
+
+
+class FormEditAuthor(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = '__all__'
