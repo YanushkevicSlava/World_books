@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from .models import Book, Author, BookInstance
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .forms import FormAddAuthor, FormEditAuthor
@@ -46,6 +46,12 @@ def index(request):
         'num_visits': num_visits,
     }
     return render(request, 'catalog/index.html', context)
+
+
+class BookCreateView(LoginRequiredMixin, CreateView):
+    model = Book
+    fields = '__all__'
+    context_object_name = 'book'
 
 
 class BookListView(ListView):
@@ -154,3 +160,11 @@ def edit_author(request, id):
         form = FormEditAuthor(instance=author)
         content = {"form": form}
         return render(request, "catalog/edit_author.html", content)
+
+
+def edit_books(request):
+    book = Book.objects.all()
+    context = {"book": book}
+    return render(request, "catalog/edit_books.html", context=context)
+
+
