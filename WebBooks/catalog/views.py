@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from .models import Book, Author, BookInstance
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .forms import FormAddAuthor, FormEditAuthor
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 
 class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
@@ -52,6 +52,19 @@ class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     fields = '__all__'
     context_object_name = 'book'
+    success_url = reverse_lazy('edit_books')
+
+
+class BookUpdateView(UpdateView):
+    model = Book
+    fields = '__all__'
+    context_object_name = 'book'
+    success_url = reverse_lazy('edit_books')
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    success_url = reverse_lazy('edit_books')
 
 
 class BookListView(ListView):
